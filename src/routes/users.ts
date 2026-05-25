@@ -21,10 +21,7 @@ users.get('/:email', async (c) => {
 
 users.post('/', async (c) => {
    const body: CreateUserDto = await c.req.json();
-
-   console.log(body)
-
-   return c.json(usersService.create(body));
+   return c.json(await usersService.create(body));
 });
 
 export default users;

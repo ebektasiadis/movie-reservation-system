@@ -10,5 +10,12 @@ export async function getByEmail(email: string) {
 }
 
 export async function create(userDto: CreateUserDto) {
+
+    const user = await usersRepository.findByEmail(userDto.email);
+
+    if(user) {
+        return null;
+    }
+
     return await usersRepository.insert(userDto);
 }
