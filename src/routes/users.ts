@@ -1,27 +1,10 @@
 import { Hono } from "hono";
-import { usersService } from "../services";
-import { CreateUserDto } from "../dtos/users";
+import { usersController } from "../controllers";
 
 const users = new Hono();
 
-users.get('/', async (c) => {
-   return c.json(await usersService.getAll())
-});
-
-users.get('/:email', async (c) => {
-   const { email } = c.req.param();
-   const user = await usersService.getByEmail(email)
-
-   if(!user) {
-      return c.text('user not found', 404);
-   }
-
-   return c.json(user);
-})
-
-users.post('/', async (c) => {
-   const body: CreateUserDto = await c.req.json();
-   return c.json(await usersService.create(body));
-});
+users.get('/', usersController.getAll);
+users.get('/:email', usersController.getByEmail);
+users.post('/', usersController.create);
 
 export default users;
